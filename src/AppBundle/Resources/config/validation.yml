@@ -1,0 +1,12 @@
+AppBundle\Entity\User:
+    properties:
+        username:
+            - NotBlank: ~
+        password:
+            - NotBlank: ~
+            - Length:
+                min: 8
+        email:
+            - Email: ~
+        role_id:
+            - Choice: [1, 2]

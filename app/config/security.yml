@@ -1,0 +1,29 @@
+security:
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+        Symfony\Component\Security\Core\User\User: bcrypt
+
+    providers:
+        db_provider:
+            entity:
+                class: AppBundle:User
+
+    firewalls:
+        secured_area:
+            pattern: ^/account
+            anonymous: ~
+            logout:
+                path:   /logout
+                target: /
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern:    ^/account
+            http_basic: ~
+            provider: db_provider
+
+    # access_control:
+    #     - { path: '^/', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+           
