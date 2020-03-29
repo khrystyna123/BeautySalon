@@ -8,6 +8,7 @@ security:
         db_provider:
             entity:
                 class: AppBundle:User
+                property: apiKey
 
     firewalls:
         secured_area:
@@ -16,6 +17,9 @@ security:
             logout:
                 path:   /logout
                 target: /
+            guard:
+                authenticators:
+                    - AppBundle\Security\TokenAuthenticator
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -23,7 +27,11 @@ security:
             pattern:    ^/account
             http_basic: ~
             provider: db_provider
+#            guard:
+#                authenticators:
+#                    - AppBundle\Security\TokenAuthenticator
 
-    # access_control:
-    #     - { path: '^/', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+    access_control:
+         - { path: '^/account', roles: ROLE_USER }
            

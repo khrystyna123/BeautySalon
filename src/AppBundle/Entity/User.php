@@ -49,6 +49,11 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $salons;
 
+    /**
+     * @ORM\Column(type="string", unique=true, nullable=true)
+     */
+    private $apiKey;
+
     public function __construct()
     {
         $this->isActive = true;
@@ -99,6 +104,12 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->role_id = $role_id;
 
+        return $this;
+    }
+
+    public function setApiKey()
+    {
+        $this->apiKey = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
         return $this;
     }
 

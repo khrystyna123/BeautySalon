@@ -4,6 +4,8 @@ parameters:
     #parameter_name: value
 
 services:
+    my_custom_authenticator:
+        class: AppBundle\Security\TokenAuthenticator
     # default configuration for services in *this* file
     _defaults:
         # automatically injects dependencies in your services

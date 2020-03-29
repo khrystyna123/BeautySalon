@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\BeautySalon;
 use AppBundle\Entity\User;
+use AppBundle\Enums\Roles;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,8 +15,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends Controller
 {
-    const OWNER = 2;
-
     /**
      * @Route("/register", name="user_registration")
      */
@@ -28,6 +27,7 @@ class RegistrationController extends Controller
         $password = $passwordEncoder->encodePassword($user, $request->get('password'));
         $user->setPassword($password);
         $user->setRole($request->get('role_id'));
+        $user->setApiKey();
 
         $validator = $this->get('validator');
         $errors = $validator->validate($user);
@@ -56,7 +56,7 @@ class RegistrationController extends Controller
         $owner = $this->getDoctrine()->getManager()->getRepository("AppBundle:User")
             ->findOneBy(array('username' => $username));
 
-        if ($owner->getRole() != self::OWNER) {
+        if ($owner->getRole() != Roles::OWNER) {
             return new JsonResponse([
                 'message' => 'You are not salon owner',
                 'status' => Response::HTTP_FORBIDDEN
