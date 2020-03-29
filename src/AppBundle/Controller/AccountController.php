@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends Controller
 {
+
     /**
      * @Route("/account/update/{username}", name="user_update")
      */
@@ -28,19 +29,27 @@ class AccountController extends Controller
             ]);
         }
 
-        $data = json_decode($request->getContent(), true);
+        if ($request->query->has('username')) {
+            $user->setUsername($request->get('username'));
+        }
+        if ($request->query->has('email')) {
+            $user->setEmail($request->get('email'));
+        }
+        if ($request->query->has('password')) {
+            $user->setPassword($request->get('password'));
+        }
+        if ($request->query->has('role_id')) {
+            $user->setRole($request->get('role_id'));
+        }
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
 
-        $response = new JsonResponse($data, 200);
-
-        return $response;
-//        return new Response(
-//            'Welcome '. $user->getUsername(),
-//            Response::HTTP_OK
-//        );
+        return new Response(
+            'Welcome '. $user->getUsername(),
+            Response::HTTP_OK
+        );
     }
 }
 
