@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
 
@@ -33,6 +32,11 @@ class BeautySalon
     private $name;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Services", mappedBy="salons")
+     */
+    private $services;
+
+    /**
      * @ORM\OneToMany(targetEntity="Address", mappedBy="salon")
      */
     private $address;
@@ -44,6 +48,7 @@ class BeautySalon
 
     public function __construct() {
         $this->address = new ArrayCollection();
+        $this->services = new ArrayCollection();
     }
 
     public function getId()
