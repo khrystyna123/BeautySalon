@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\BeautySalon;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Address;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,26 +14,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class SalonController extends Controller
 {
     /**
-     * @Route("/{name}", name="salon_instagram")
+     * @Route("/account/{salonname}/address", name="user_update")
      */
-    public function instagramAction($name)
+    public function addAddressAction($salonname, Request $request)
     {
+
         $salon = $this->getDoctrine()->getManager()->getRepository("AppBundle:BeautySalon")
-                ->findOneBy(array('name' => $name));
+            ->findOneBy(array('name' => $salonname));
 
-        $username = $salon->getInstaUsername();
+        if(!$salon){
+            return new JsonResponse([
+                'message' => 'Salon doesnt exists',
+                'status' => Response::HTTP_UNAUTHORIZED
+            ]);
+        }
 
-//        $json = file_get_contents('https://www.instagram.com/'.$username.'/media/');
-//        $instagram_feed_data = json_decode($json, true);
+        $address = new Address();
 
-//        $instaResult = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1');
-//        $insta = json_decode($instaResult);
-//        $instagram_photos = $insta->graphql->user->edge_owner_to_timeline_media->edges;
+        $address->setCity($request->get('city'));
+        $address->setStreet($request->get('street'));
+        $address->setHouseNumber($request->get('house_number'));
 
-        
+        $address->setSalon($salon);
 
-        return new Response (
-        Response::HTTP_OK
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($salon);
+        $entityManager->flush();
+
+        return new Response(
+            Response::HTTP_OK
         );
     }
 }
