@@ -113,6 +113,16 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
+    public function getSalons()
+    {
+        return $this->salons;
+    }
+
+    public function setSalons($salons)
+    {
+        $this->salons = $salons;
+    }
+
     public function getSalt()
     {
         return null;
