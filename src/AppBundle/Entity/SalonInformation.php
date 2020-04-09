@@ -19,8 +19,8 @@ class SalonInformation
     private $id;
 
     /**
-     * @OneToOne(targetEntity="BeautySalon", inversedBy="info")
-     * @JoinColumn(name="salon_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="BeautySalon", inversedBy="info")
+     * @ORM\JoinColumn(name="salon_id", referencedColumnName="id")
      */
     private $salon;
 
