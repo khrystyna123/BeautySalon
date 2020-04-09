@@ -46,6 +46,11 @@ class BeautySalon
      */
     private $insta_username;
 
+    /**
+     * @OneToOne(targetEntity="SalonInformation", mappedBy="salon")
+     */
+    private $info;
+
     public function __construct() {
         $this->address = new ArrayCollection();
         $this->services = new ArrayCollection();
@@ -85,4 +90,36 @@ class BeautySalon
     {
         $this->insta_username = $insta_username;
     }
+
+    public function getServices()
+    {
+        return $this->services;
+    }
+
+    public function setServices($services)
+    {
+        $this->services = $services;
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+
+    public function getInfo()
+    {
+        return $this->info;
+    }
+
+    public function setInfo($info)
+    {
+        $this->info = $info;
+    }
+
+
 }
