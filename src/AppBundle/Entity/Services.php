@@ -60,5 +60,4 @@ class Services
     {
         return $this->salons;
     }
-
 }
