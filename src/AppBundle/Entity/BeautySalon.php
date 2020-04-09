@@ -47,9 +47,14 @@ class BeautySalon
     private $insta_username;
 
     /**
-     * @OneToOne(targetEntity="SalonInformation", mappedBy="salon")
+     * @ORM\OneToOne(targetEntity="SalonInformation", mappedBy="salon")
      */
     private $info;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Schedule", mappedBy="salon")
+     */
+    private $schedule;
 
     public function __construct() {
         $this->address = new ArrayCollection();
@@ -121,5 +126,14 @@ class BeautySalon
         $this->info = $info;
     }
 
+    public function getSchedule()
+    {
+        return $this->schedule;
+    }
+
+    public function setSchedule($schedule)
+    {
+        $this->schedule = $schedule;
+    }
 
 }
