@@ -25,6 +25,11 @@ class SalonInformation
     private $salon;
 
     /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $logo;
+
+    /**
      * @ORM\Column(type="string", length=10)
      */
     private $phone_number;
@@ -57,6 +62,16 @@ class SalonInformation
     public function setSalon($salon)
     {
         $this->salon = $salon;
+    }
+
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
     }
 
     public function getPhoneNumber()

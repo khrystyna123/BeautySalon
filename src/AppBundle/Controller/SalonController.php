@@ -56,7 +56,7 @@ class SalonController extends Controller
     /**
      * @Route("/account/{salonname}/info", name="info_add")
      */
-    public function addInfoAction($salonname, Request $request)
+    public function addInfoAction($salonname, Request $request, FileUploader $fileUploader)
     {
 
         $salon = $this->getDoctrine()->getManager()->getRepository("AppBundle:BeautySalon")
@@ -70,6 +70,10 @@ class SalonController extends Controller
         }
 
         $info = new SalonInformation();
+
+        $logoFile = $request->files->get("logo");
+        $logoFileName = $fileUploader->upload($logoFile);
+        $info->setLogo($logoFileName);
 
         $info->setInfo($request->get("info"));
         $info->setEmail($request->get("email"));
@@ -111,10 +115,10 @@ class SalonController extends Controller
             $schedule = new Schedule();
 
             $schedule->setDay($day);
-            $schedule->setStatus($request->get("status"));
+            $schedule->setStatus($request->get("status" . $day));
             if ($schedule->getStatus() == OpeningStatus::Opened) {
-                $schedule->setStartTime($request->get("start_time"));
-                $schedule->setEndTime($request->get("end_time"));
+                $schedule->setStartTime($request->get("start_time" . $day));
+                $schedule->setEndTime($request->get("end_time" . $day));
             }
 
             $schedule->setSalon($salon);
@@ -130,4 +134,5 @@ class SalonController extends Controller
             Response::HTTP_OK
         );
     }
+
 }
