@@ -9,6 +9,7 @@ use AppBundle\Entity\SalonInformation;
 use AppBundle\Entity\Schedule;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Address;
+use AppBundle\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
