@@ -136,4 +136,35 @@ class SalonController extends Controller
         );
     }
 
+    /**
+     * @Route("/{salonname}/showinfo", name="info_show")
+     */
+    public function showInfoAction($salonname)
+    {
+
+        $salon = $this->getDoctrine()->getManager()->getRepository("AppBundle:BeautySalon")
+            ->findOneBy(array('name' => $salonname));
+
+        if(!$salon){
+            return new JsonResponse([
+                'message' => 'Salon doesnt exists',
+                'status' => Response::HTTP_UNAUTHORIZED
+            ]);
+        }
+
+        $address = $this->getDoctrine()->getManager()->getRepository("AppBundle:Address")
+            ->findOneBy(array('salon' => $salon));
+
+        return new JsonResponse([
+            'salon name' => $salon->getName(),
+            'instagram' => $salon->getInstaUsername(),
+            'address' => [
+                'city' => $address->getCity(),
+                'street' => $address->getStreet(),
+                'house number' => $address->getHouseNumber()
+            ],
+            'status' => Response::HTTP_OK
+        ]);
+    }
+
 }
