@@ -15,7 +15,7 @@ security:
             pattern: ^/account
             anonymous: ~
             logout:
-                path:   /logout
+                path:   /account/logout
                 target: /
             guard:
                 authenticators:
